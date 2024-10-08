@@ -1,6 +1,7 @@
 // --- Replace with your dashboard id and secret ---- //
-const DASHBOARD_ID = 'd_6f57af52-7372-4114-9f87-8e6a00841622'
-const DASHBOARD_SECRET = 'ds_c1d3c699-2760-4f91-9ec1-8a1a759c0d04'
+const DASHBOARD_ID = 'd_a1a5275b-5ded-411c-a2bb-bfafd55e7b26'
+const DASHBOARD_SECRET = 'ds_13353da5-e413-46cb-a8af-fd58192aab11'
+import { Retool } from '@tryretool/custom-component-support'
 
 import { useEffect, useState } from 'react'
 import { AuthToken, Dashboard as Dash } from 'semaphor'
@@ -9,6 +10,14 @@ const TOKEN_URL = 'https://semaphor.cloud/api/v1/token'
 
 export function Dashboard() {
   const [authToken, setAuthToken] = useState<AuthToken>()
+
+  const [dashboardId, _setDashboardId] = Retool.useStateString({
+    name: 'ID'
+  })
+
+  const [dashboardSecret, _setDashboardSecret] = Retool.useStateString({
+    name: 'Secret'
+  })
 
   useEffect(() => {
     async function fetchToken() {
@@ -19,8 +28,8 @@ export function Dashboard() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            dashboardId: DASHBOARD_ID,
-            dashboardSecret: DASHBOARD_SECRET
+            dashboardId: dashboardId, //DASHBOARD_ID,
+            dashboardSecret: dashboardSecret
           })
         })
         if (!response.ok) {
